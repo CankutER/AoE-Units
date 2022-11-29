@@ -1,13 +1,51 @@
-body {
+*,
+::after,
+::before {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  box-sizing: border-box;
+}
+main {
+  width: 90vw;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+header {
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+.nav-btn {
+  display: inline-block;
+  text-decoration: none;
+  padding: 0.5rem 0.75rem;
+  font-size: 1.25rem;
+  color: whitesmoke;
+  background-color: rgb(19, 137, 216);
+  border-radius: 0.3rem;
+}
+.content {
+  min-height: calc(100vh - 5rem);
+}
+.hero {
+  background: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.35),
+      rgba(0, 0, 0, 0.35)
+    ),
+    url("utilities/aoe-background.jpg") center/cover no-repeat;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.single-cost {
+  display: flex;
+  gap: 2rem;
+}
+.cost-control {
+  display: flex;
+  gap: 0.5rem;
 }

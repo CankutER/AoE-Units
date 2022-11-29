@@ -1,24 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
-
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Landing from "./pages/landing";
+import Units from "./pages/units";
+import UnitDetails from "./pages/unitDetails";
+import SharedLayout from "./pages/shared";
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<SharedLayout></SharedLayout>}>
+          <Route index element={<Landing></Landing>}></Route>
+          <Route path="/units" element={<Units></Units>}></Route>
+          <Route
+            path="/units/:unitId"
+            element={<UnitDetails></UnitDetails>}
+          ></Route>
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
