@@ -4,57 +4,24 @@ import {
   setAge,
   setValue,
   setChecked,
-  setUnitList,
+  requestFetch,
 } from "../features/unitsSlice";
 import { useEffect } from "react";
-import filterGenerator from "../utilities/filterGenerator";
+import { useNavigate } from "react-router-dom";
 
-const url = "/age-of-empires-units.json";
 const Units = () => {
   const unitsState = useSelector((state) => state.units);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const fetchUnits = async () => {
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    });
-    const data = await response.json();
-    const units = data.units;
-    // filter logic
-    const filterStore = filterGenerator(unitsState.filters);
-
-    const filteredUnits = filterStore.reduce((acc, currFilter) => {
-      acc = acc.filter((unit) => {
-        if (currFilter.type === "age") {
-          if (currFilter.value !== "All") {
-            return unit.age === currFilter.value;
-          }
-          return true;
-        }
-        if (currFilter.type === "cost") {
-          if (currFilter.isChecked) {
-            return (
-              !unit.cost ||
-              !unit.cost[currFilter.name] ||
-              unit.cost[currFilter.name] <= currFilter.value
-            );
-          }
-          return true;
-        }
-      });
-      return acc;
-    }, units);
-    //
-    dispatch(setUnitList(filteredUnits));
+  // Including requestFetch to create a single point of entry for saga as there are multiple inputs triggering state change, goal is to prevent race conditions
+  const dispatchWithFetch = (action) => {
+    dispatch(action);
+    dispatch(requestFetch());
   };
-
+  //
   useEffect(() => {
-    fetchUnits();
-  }, [unitsState]);
+    dispatch(requestFetch());
+  }, []);
   return (
     <article className="content">
       <form className="filter-form">
@@ -68,10 +35,12 @@ const Units = () => {
                   <input
                     type="radio"
                     name="age"
-                    defaultChecked={i === 0 ? true : false}
+                    checked={age === unitsState.filters.age.value}
                     value={age}
                     id={`age-${i}`}
-                    onClick={(e) => dispatch(setAge(e.target.value))}
+                    onChange={(e) => {
+                      dispatchWithFetch(setAge(e.target.value));
+                    }}
                   />
                   <label htmlFor={`age-${i}`}>{age}</label>
                 </div>
@@ -90,7 +59,8 @@ const Units = () => {
                   <div className="cost-control">
                     <input
                       type="checkbox"
-                      onClick={() => dispatch(setChecked(type))}
+                      checked={unitsState.filters[type].isChecked}
+                      onClick={() => dispatchWithFetch(setChecked(type))}
                       name={type}
                       id={`${type}Check`}
                     />
@@ -104,7 +74,9 @@ const Units = () => {
                       value={unitsState.filters[type].value}
                       disabled={!unitsState.filters[type].isChecked}
                       onChange={(e) =>
-                        dispatch(setValue({ type, value: e.target.value }))
+                        dispatchWithFetch(
+                          setValue({ type, value: e.target.value })
+                        )
                       }
                       name={`${type}Range`}
                       id={`${type}Range`}
@@ -123,7 +95,12 @@ const Units = () => {
       <section className="unit-list">
         {unitsState.unitList.map((unit, i) => {
           return (
-            <p key={unit.id}>
+            <p
+              key={unit.id}
+              onClick={() => {
+                navigate(`/units/${unit.id}`);
+              }}
+            >
               ID:{unit.id} Name:{unit.name} Gold:{unit?.cost?.Gold} Wood:
               {unit?.cost?.Wood} Food:{unit?.cost?.Food}
             </p>

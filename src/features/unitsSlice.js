@@ -28,8 +28,13 @@ const unitsSlice = createSlice({
     setUnitList: (state, action) => {
       state.unitList = action.payload;
     },
+    requestFetch: (state, action) => {
+      // this is just a trigger for saga
+      console.log("fetch requested");
+    },
   },
 });
 
-export const { setAge, setValue, setChecked, setUnitList } = unitsSlice.actions;
+export const { setAge, setValue, setChecked, setUnitList, requestFetch } =
+  unitsSlice.actions;
 export default unitsSlice.reducer;
