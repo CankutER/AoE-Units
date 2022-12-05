@@ -14,7 +14,7 @@ function* fetchDetails(action) {
       })
     );
     if (!response.ok) {
-      throw "could not get details";
+      throw new Error("could not get details");
     }
     const data = yield response.json();
     const units = data.units;

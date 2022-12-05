@@ -6,6 +6,22 @@
   box-sizing: border-box;
 }
 
+$dark-primary: rgb(21, 21, 21);
+$purple-primary: rgb(48, 27, 63);
+$grey-primary: rgb(60, 65, 92);
+$light-primary: rgb(180, 165, 165);
+$light-secondary: rgb(240, 202, 163);
+$font-primary: "Roboto Mono", monospace;
+$font-secondary: "Open Sans", sans-serif;
+$spacing: 0.25rem;
+$radius: 0.5rem;
+$max-width: 1170px;
+$transition: all 0.25s linear;
+
+@mixin btnEff($btnColor: $dark-primary) {
+  background-color: $light-secondary;
+  color: $btnColor;
+}
 html {
   scroll-behavior: smooth;
 }
@@ -19,17 +35,15 @@ html {
 }
 
 body {
-  font-family: "Roboto Mono", monospace;
-  background: rgb(21, 21, 21);
+  font-family: $font-primary;
+  background: $dark-primary;
   font-size: 0.875rem;
   line-height: 1.25;
-  color: rgb(180, 165, 165);
+  color: $light-primary;
 }
-
 img {
   display: block;
 }
-
 ul {
   list-style-type: none;
 }
@@ -43,47 +57,37 @@ h1,
 h2,
 h3,
 h4 {
-  letter-spacing: 0.25rem;
+  letter-spacing: $spacing;
   text-transform: capitalize;
 }
-
 h1 {
   font-size: 3rem;
 }
-
 h2 {
   font-size: 2rem;
 }
-
 h3 {
   font-size: 1.25rem;
 }
-
 h4 {
   font-size: 0.875rem;
 }
-
 .btn {
   display: inline-block;
   text-decoration: none;
   padding: 0.5rem 0.75rem;
   font-size: 0.875rem;
-  color: rgb(48, 27, 63);
-  background-color: rgb(180, 165, 165);
+  color: $purple-primary;
+  background-color: $light-primary;
   border-radius: 0.3rem;
-  transition: all 0.25s linear;
+  transition: $transition;
 }
-
 .btn:hover {
-  background-color: rgb(240, 202, 163);
-  color: rgb(21, 21, 21);
+  @include btnEff;
 }
-
 .btn.active {
-  background-color: rgb(240, 202, 163);
-  color: rgb(21, 21, 21);
+  @include btnEff;
 }
-
 @media screen and (min-width: 800px) {
   h1 {
     font-size: 4rem;
@@ -104,14 +108,15 @@ h4 {
     font-size: 1rem;
   }
 }
+
 /* LANDING */
 main {
   width: 90vw;
   max-width: 1400px;
   min-height: 100vh;
+
   margin: 0 auto;
 }
-
 header {
   display: grid;
   height: 5rem;
@@ -119,11 +124,10 @@ header {
   align-items: flex-end;
   justify-items: center;
 }
-
 .page-title {
   grid-column: 2/3;
   align-self: flex-end;
-  color: rgb(180, 165, 165);
+  color: $light-primary;
   margin: 0;
 }
 
@@ -134,7 +138,6 @@ header {
   align-self: flex-start;
   justify-self: flex-end;
 }
-
 .nav-btn {
   margin-top: 0.5rem;
 }
@@ -144,13 +147,17 @@ header {
   display: grid;
   align-items: center;
 }
-
 .hero {
-  background: linear-gradient(to right, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url("utilities/aoe-background.jpg") center/cover no-repeat;
+  background: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.35),
+      rgba(0, 0, 0, 0.35)
+    ),
+    url("utilities/aoe-background.jpg") center/cover no-repeat;
   height: 80%;
   width: 60%;
   margin: 0 auto;
-  border-radius: 0.5rem;
+  border-radius: $radius;
 }
 
 @media screen and (max-width: 900px) {
@@ -182,7 +189,6 @@ header {
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
 }
-
 @media screen and (max-width: 900px) {
   .ages {
     display: grid;
@@ -198,11 +204,11 @@ header {
   }
 }
 /*  */
+
 /* COST FILTER */
 .costs {
   margin-bottom: 5rem;
 }
-
 .cost-filters {
   display: grid;
   gap: 0.5rem;
@@ -212,12 +218,10 @@ header {
   display: flex;
   gap: 2rem;
 }
-
 .cost-control {
   display: flex;
   gap: 0.5rem;
 }
-
 @media screen and (max-width: 900px) {
   .costs {
     display: grid;
@@ -232,24 +236,20 @@ header {
 /* Units-List */
 .custom-table {
   text-align: center;
-  color: rgb(240, 202, 163);
+  color: $light-secondary;
 }
-
 .single-unit {
   cursor: pointer;
   transition: var(--transition);
 }
-
 .single-unit:hover {
-  background-color: rgb(240, 202, 163);
-  color: rgb(48, 27, 63);
+  @include btnEff($btnColor: $purple-primary);
 }
-
 .no-show {
   text-align: center;
 }
-
 /*  */
+
 /* Details Page */
 .unit-details {
   display: grid;
@@ -258,5 +258,3 @@ header {
 }
 
 /*  */
-
-/*# sourceMappingURL=index.css.map */

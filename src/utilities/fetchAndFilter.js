@@ -8,7 +8,7 @@ const fetchAndFilter = async ({ url, unitsState }) => {
     },
   });
   if (!response.ok) {
-    throw "Failed to get data";
+    throw new Error("Failed to get data");
   }
   const data = await response.json();
   const units = data.units;

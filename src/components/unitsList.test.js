@@ -1,7 +1,7 @@
 import renderWithProvider from "../test-utilities/renderProvider";
 import UnitsList from "./unitsList";
 import userEvent from "@testing-library/user-event";
-
+import { screen } from "@testing-library/react";
 const mockState = {
   units: {
     filters: {
@@ -128,27 +128,23 @@ const mockState = {
 };
 
 test("initial render with 5 elements", () => {
-  const { getAllByTestId } = renderWithProvider(<UnitsList />, {
+  renderWithProvider(<UnitsList />, {
     preloadedState: mockState,
   });
 
-  const list = getAllByTestId("list-element");
-
-  expect(list.length).toEqual(5);
-  expect(list[0].lastElementChild).not.toHaveTextContent(/food/i);
+  expect(screen.getAllByTestId("list-element").length).toEqual(5);
+  expect(screen.getAllByTestId("list-element")[0]).not.toHaveTextContent(
+    /food/i
+  );
 });
 
 test("testing navigate on click", async () => {
   const mockHandler = jest.fn((str) => "I am heading to page " + str);
-  const { getByText } = renderWithProvider(
-    <UnitsList navigate={mockHandler} />,
-    {
-      preloadedState: mockState,
-    }
-  );
-  const unit = getByText(/arbalest/i);
+  renderWithProvider(<UnitsList navigate={mockHandler} />, {
+    preloadedState: mockState,
+  });
 
-  await userEvent.click(unit);
+  await userEvent.click(screen.getByText(/arbalest/i));
 
   expect(mockHandler.mock.calls.length).toBe(1);
   expect(mockHandler.mock.results[0].value).toEqual(

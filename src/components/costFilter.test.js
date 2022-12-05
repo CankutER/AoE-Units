@@ -1,57 +1,51 @@
 import { fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-
+import { screen } from "@testing-library/react";
 import CostFilter from "../components/costFilter";
 import renderWithProvider from "../test-utilities/renderProvider";
 
 test("checking initial render", () => {
-  const { getByText } = renderWithProvider(<CostFilter />);
-  const heading = getByText(/costs/i);
-  expect(heading).toBeInTheDocument;
+  renderWithProvider(<CostFilter />);
+
+  expect(screen.getByText(/costs/i)).toBeInTheDocument();
 });
 
 test("All checkboxes are disabled on initial render", () => {
-  const { getByLabelText } = renderWithProvider(<CostFilter />);
-  const wood = getByLabelText(/wood/i);
-  const food = getByLabelText(/food/i);
-  const gold = getByLabelText(/gold/i);
-  expect(wood.checked).toEqual(false);
-  expect(food.checked).toEqual(false);
-  expect(gold.checked).toEqual(false);
+  renderWithProvider(<CostFilter />);
+
+  expect(screen.getByLabelText(/wood/i).checked).toEqual(false);
+  expect(screen.getByLabelText(/food/i).checked).toEqual(false);
+  expect(screen.getByLabelText(/gold/i).checked).toEqual(false);
 });
 test("Sliders and filters becomes enabled after activating relevant checkbox", async () => {
-  const { getByText, getByTestId, getByLabelText } = renderWithProvider(
-    <CostFilter />
-  );
+  renderWithProvider(<CostFilter />);
 
-  const woodCheck = getByLabelText("Wood");
-  const foodCheck = getByLabelText("Food");
-  const goldCheck = getByLabelText("Gold");
-  const woodRange = getByTestId(/woodrange/i);
-  const foodRange = getByTestId(/foodrange/i);
-  const goldRange = getByTestId(/goldrange/i);
-  await userEvent.click(getByLabelText("Wood"));
-  await userEvent.click(getByLabelText("Food"));
-  await userEvent.click(getByLabelText("Gold"));
+  await userEvent.click(screen.getByLabelText("Wood"));
+  await userEvent.click(screen.getByLabelText("Food"));
+  await userEvent.click(screen.getByLabelText("Gold"));
 
-  expect(woodRange).toBeEnabled();
-  expect(foodRange).toBeEnabled();
-  expect(goldRange).toBeEnabled();
+  expect(screen.getByTestId(/woodrange/i)).toBeEnabled();
+  expect(screen.getByTestId(/foodrange/i)).toBeEnabled();
+  expect(screen.getByTestId(/goldrange/i)).toBeEnabled();
 
-  expect(woodCheck).toBeChecked();
-  expect(foodCheck).toBeChecked();
-  expect(goldCheck).toBeChecked();
+  expect(screen.getByLabelText("Wood")).toBeChecked();
+  expect(screen.getByLabelText("Food")).toBeChecked();
+  expect(screen.getByLabelText("Gold")).toBeChecked();
 });
 
 test("slider value changes on input", () => {
-  const { getByTestId } = renderWithProvider(<CostFilter />);
-  const woodRange = getByTestId(/woodrange/i);
-  const foodRange = getByTestId(/foodrange/i);
-  const goldRange = getByTestId(/goldrange/i);
-  fireEvent.change(woodRange, { target: { value: "0" } });
-  fireEvent.change(foodRange, { target: { value: "100" } });
-  fireEvent.change(goldRange, { target: { value: "200" } });
-  expect(woodRange).toHaveValue("0");
-  expect(foodRange).toHaveValue("100");
-  expect(goldRange).toHaveValue("200");
+  renderWithProvider(<CostFilter />);
+
+  fireEvent.change(screen.getByTestId(/woodrange/i), {
+    target: { value: "0" },
+  });
+  fireEvent.change(screen.getByTestId(/foodrange/i), {
+    target: { value: "100" },
+  });
+  fireEvent.change(screen.getByTestId(/goldrange/i), {
+    target: { value: "200" },
+  });
+  expect(screen.getByTestId(/woodrange/i)).toHaveValue("0");
+  expect(screen.getByTestId(/foodrange/i)).toHaveValue("100");
+  expect(screen.getByTestId(/goldrange/i)).toHaveValue("200");
 });

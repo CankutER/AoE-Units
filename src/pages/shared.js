@@ -1,4 +1,4 @@
-import { Outlet, Link, useHref, useLocation } from "react-router-dom";
+import { Outlet, Link, useLocation } from "react-router-dom";
 
 const SharedLayout = () => {
   const location = useLocation();

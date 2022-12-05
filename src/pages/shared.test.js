@@ -1,10 +1,10 @@
 import SharedLayout from "./shared";
-
+import { screen } from "@testing-library/react";
 import renderWithProvider from "../test-utilities/renderProvider";
 import { MemoryRouter } from "react-router-dom";
 import { setupStore } from "../test-utilities/setupStoreForSaga";
 test("checking page title based on route", async () => {
-  const { getByTestId } = renderWithProvider(
+  renderWithProvider(
     <MemoryRouter initialEntries={["/units/1"]}>
       <SharedLayout />
     </MemoryRouter>,
@@ -12,11 +12,11 @@ test("checking page title based on route", async () => {
       store: setupStore(),
     }
   );
-  const title = getByTestId("title");
-  expect(title).toHaveTextContent(/details page/i);
+
+  expect(screen.getByTestId("title")).toHaveTextContent(/details page/i);
 });
 test("checking page title based on route 2", async () => {
-  const { getByTestId } = renderWithProvider(
+  renderWithProvider(
     <MemoryRouter initialEntries={["/"]}>
       <SharedLayout />
     </MemoryRouter>,
@@ -24,11 +24,11 @@ test("checking page title based on route 2", async () => {
       store: setupStore(),
     }
   );
-  const title = getByTestId("title");
-  expect(title).toHaveTextContent(/home page/i);
+
+  expect(screen.getByTestId("title")).toHaveTextContent(/home page/i);
 });
 test("checking page title based on route 3", async () => {
-  const { getByTestId } = renderWithProvider(
+  renderWithProvider(
     <MemoryRouter initialEntries={["/units"]}>
       <SharedLayout />
     </MemoryRouter>,
@@ -36,6 +36,6 @@ test("checking page title based on route 3", async () => {
       store: setupStore(),
     }
   );
-  const title = getByTestId("title");
-  expect(title).toHaveTextContent(/units page/i);
+
+  expect(screen.getByTestId("title")).toHaveTextContent(/units page/i);
 });

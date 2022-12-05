@@ -1,31 +1,26 @@
 import userEvent from "@testing-library/user-event";
 import AgesFilter from "../components/agesFilter";
 import renderWithProvider from "../test-utilities/renderProvider";
+import { screen } from "@testing-library/react";
 
 test("checking initial render", () => {
-  const { getByText } = renderWithProvider(<AgesFilter />);
-  const heading = getByText(/ages/i);
-  expect(heading).toBeInTheDocument();
+  renderWithProvider(<AgesFilter />);
+
+  expect(screen.getByText(/ages/i)).toBeInTheDocument();
 });
 test("All is checked on initial render", () => {
-  const { getByTestId } = renderWithProvider(<AgesFilter />);
-  const all = getByTestId("All");
+  renderWithProvider(<AgesFilter />);
 
-  expect(all).toHaveClass("active");
+  expect(screen.getByTestId("All")).toHaveClass("active");
 });
 
 test("Checked option changes on click", async () => {
-  const { getByTestId } = renderWithProvider(<AgesFilter />);
-  const all = getByTestId("All");
-  const dark = getByTestId("Dark");
-  const feudal = getByTestId("Feudal");
-  const castle = getByTestId("Castle");
-  const imperial = getByTestId("Imperial");
+  renderWithProvider(<AgesFilter />);
 
-  await userEvent.click(dark);
-  expect(all).not.toHaveClass("active");
-  expect(dark).toHaveClass("active");
-  expect(feudal).not.toHaveClass("active");
-  expect(castle).not.toHaveClass("active");
-  expect(imperial).not.toHaveClass("active");
+  await userEvent.click(screen.getByTestId("Dark"));
+  expect(screen.getByTestId("All")).not.toHaveClass("active");
+  expect(screen.getByTestId("Dark")).toHaveClass("active");
+  expect(screen.getByTestId("Feudal")).not.toHaveClass("active");
+  expect(screen.getByTestId("Castle")).not.toHaveClass("active");
+  expect(screen.getByTestId("Imperial")).not.toHaveClass("active");
 });

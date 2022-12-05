@@ -3,6 +3,7 @@ import Landing from "./pages/landing";
 import Units from "./pages/units";
 import UnitDetails from "./pages/unitDetails";
 import SharedLayout from "./pages/shared";
+import ErrorPage from "./pages/error";
 function App() {
   return (
     <BrowserRouter>
@@ -14,6 +15,7 @@ function App() {
             path="/units/:unitId"
             element={<UnitDetails></UnitDetails>}
           ></Route>
+          <Route path="*" element={<ErrorPage />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

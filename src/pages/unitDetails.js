@@ -15,7 +15,7 @@ const UnitDetails = () => {
       dispatch(setUnit({}));
       dispatch(setError(false));
     };
-  }, []);
+  }, [dispatch, unitId]);
 
   return (
     <section className="unit-details">
