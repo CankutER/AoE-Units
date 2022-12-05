@@ -4,7 +4,15 @@ function* fetchDetails(action) {
   const id = action.payload;
   console.log(id);
   try {
-    const response = yield call(() => fetch(url));
+    const response = yield call(() =>
+      fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      })
+    );
     if (!response.ok) {
       throw "could not get details";
     }
@@ -12,8 +20,11 @@ function* fetchDetails(action) {
     const units = data.units;
 
     const unitDetails = units.find((unit) => Number(unit.id) === Number(id));
-
-    yield put({ type: "details/setUnit", payload: unitDetails });
+    if (!unitDetails) {
+      yield put({ type: "details/setError", payload: true });
+    } else {
+      yield put({ type: "details/setUnit", payload: unitDetails });
+    }
   } catch (err) {}
 }
 

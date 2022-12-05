@@ -5,32 +5,147 @@
   padding: 0;
   box-sizing: border-box;
 }
-main {
-  width: 90vw;
-  max-width: 1400px;
-  margin: 0 auto;
+:root {
+  --clr-dark-primary: rgb(21, 21, 21);
+  --clr-purple-primary: rgb(48, 27, 63);
+  --clr-grey-primary: rgb(60, 65, 92);
+  --clr-light-primary: rgb(180, 165, 165);
+  --clr-light-secondary: rgb(240, 202, 163);
+  --font-primary: "Roboto Mono", monospace;
+  --font-secondary: "Open Sans", sans-serif;
+  --spacing: 0.25rem;
+  --radius: 0.5rem;
+  --max-width: 1170px;
+  --transition: all 0.25s linear;
+  --shadow-black: 0 5px 15px hsl(228, 19%, 5%);
+  --shadow-cyan-dark: 0 5px 15px hsl(177, 40%, 45%);
+  --shadow-cyan-light: 0 5px 15px hsl(176, 96%, 69%);
+  --border-primary-light: 1px solid var(--clr-cyan-lighter);
 }
-header {
-  height: 5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+html {
+  scroll-behavior: smooth;
 }
-.nav-links {
-  display: flex;
-  gap: 1.5rem;
+
+*,
+::after,
+::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-.nav-btn {
+
+body {
+  font-family: var(--font-primary);
+  background: var(--clr-dark-primary);
+  font-size: 0.875rem;
+  line-height: 1.25;
+  color: var(--clr-light-primary);
+}
+img {
+  display: block;
+}
+ul {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+  display: inline-block;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  letter-spacing: var(--spacing);
+  text-transform: capitalize;
+}
+h1 {
+  font-size: 3rem;
+}
+h2 {
+  font-size: 2rem;
+}
+h3 {
+  font-size: 1.25rem;
+}
+h4 {
+  font-size: 0.875rem;
+}
+.btn {
   display: inline-block;
   text-decoration: none;
   padding: 0.5rem 0.75rem;
-  font-size: 1.25rem;
-  color: whitesmoke;
-  background-color: rgb(19, 137, 216);
+  font-size: 0.875rem;
+  color: var(--clr-purple-primary);
+  background-color: var(--clr-light-primary);
   border-radius: 0.3rem;
+  transition: var(--transition);
 }
-.content {
-  min-height: calc(100vh - 5rem);
+.btn:hover {
+  background-color: var(--clr-light-secondary);
+}
+.btn.active {
+  background-color: var(--clr-light-secondary);
+}
+@media screen and (min-width: 800px) {
+  h1 {
+    font-size: 4rem;
+  }
+  h2 {
+    font-size: 2.5rem;
+  }
+  h3 {
+    font-size: 1.75rem;
+  }
+  h4 {
+    font-size: 1rem;
+  }
+  body {
+    font-size: 1rem;
+  }
+  .btn {
+    font-size: 1rem;
+  }
+}
+
+/* LANDING */
+main {
+  width: 90vw;
+  max-width: 1400px;
+  min-height: 100vh;
+
+  margin: 0 auto;
+}
+header {
+  display: grid;
+  height: 5rem;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: flex-end;
+  justify-items: center;
+}
+.page-title {
+  grid-column: 2/3;
+  align-self: flex-end;
+  color: var(--clr-purple-lighter);
+  margin: 0;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+  grid-column: 3/4;
+  align-self: flex-start;
+  justify-self: flex-end;
+}
+.nav-btn {
+  margin-top: 0.5rem;
+}
+
+.landing-content {
+  height: calc(100vh - 5rem);
+  display: grid;
+  align-items: center;
 }
 .hero {
   background: linear-gradient(
@@ -39,8 +154,68 @@ header {
       rgba(0, 0, 0, 0.35)
     ),
     url("utilities/aoe-background.jpg") center/cover no-repeat;
+  height: 80%;
+  width: 60%;
+  margin: 0 auto;
+  border-radius: var(--radius);
 }
 
+@media screen and (max-width: 900px) {
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .nav-links {
+    align-self: center;
+  }
+  .nav-btn {
+    padding: 0.4rem 0.6rem;
+    font-size: 1rem;
+    margin-top: 0;
+  }
+  .page-title {
+    align-self: center;
+  }
+}
+/*  */
+/* AGES FILTER */
+.ages-group {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.ages {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+@media screen and (max-width: 900px) {
+  .ages {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+  }
+  .single-age-container {
+    flex-grow: 1;
+  }
+  .single-age-container .btn {
+    width: 100%;
+    height: 100%;
+  }
+}
+/*  */
+
+/* COST FILTER */
+.costs {
+  margin-bottom: 5rem;
+}
+.cost-filters {
+  display: grid;
+  gap: 0.5rem;
+}
+.cost-filters .cost-check {
+  color: var(--clr-light-secondary);
+}
 .single-cost {
   display: flex;
   gap: 2rem;
@@ -49,3 +224,40 @@ header {
   display: flex;
   gap: 0.5rem;
 }
+@media screen and (max-width: 900px) {
+  .costs {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+  }
+  .single-cost {
+    gap: 1.5rem;
+  }
+}
+/*  */
+/* Units-List */
+.custom-table {
+  text-align: center;
+  color: var(--clr-light-secondary);
+}
+.single-unit {
+  cursor: pointer;
+  transition: var(--transition);
+}
+.single-unit:hover {
+  background-color: var(--clr-light-secondary);
+  color: var(--clr-purple-primary);
+}
+.no-show {
+  text-align: center;
+}
+/*  */
+
+/* Details Page */
+.unit-details {
+  display: grid;
+  justify-content: center;
+  margin-top: 5rem;
+}
+
+/*  */

@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   unit: {},
+  errorFlag: false,
 };
 
 const detailsSlice = createSlice({
@@ -12,8 +13,11 @@ const detailsSlice = createSlice({
     setUnit: (state, action) => {
       state.unit = action.payload;
     },
+    setError: (state, action) => {
+      state.errorFlag = action.payload;
+    },
   },
 });
 
-export const { requestDetails, setUnit } = detailsSlice.actions;
+export const { requestDetails, setUnit, setError } = detailsSlice.actions;
 export default detailsSlice.reducer;

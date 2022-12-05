@@ -30,7 +30,6 @@ const unitsSlice = createSlice({
     },
     requestFetch: (state, action) => {
       // this is just a trigger for saga
-      console.log("fetch requested");
     },
   },
 });

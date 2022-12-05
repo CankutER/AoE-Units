@@ -1,15 +1,32 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useHref, useLocation } from "react-router-dom";
 
 const SharedLayout = () => {
+  const location = useLocation();
+  let pageDefinition;
+  if (location.pathname === "/") {
+    pageDefinition = "Home";
+  }
+  if (
+    location.pathname.includes("units") &&
+    location.pathname[location.pathname.length - 1] === "s"
+  ) {
+    pageDefinition = "Units";
+  }
+  if (location.pathname.split("").some((item) => !isNaN(Number(item)))) {
+    pageDefinition = "Details";
+  }
   return (
     <main>
       <header>
-        <h1 className="page-title">PAGE TITLE</h1>
+        <h2
+          className="page-title"
+          data-testid="title"
+        >{`${pageDefinition} Page`}</h2>
         <div className="nav-links">
-          <Link to="/" className="nav-btn">
+          <Link to="/" className="btn nav-btn">
             Home
           </Link>
-          <Link to="/units" className="nav-btn">
+          <Link to="/units" className="btn nav-btn">
             Units
           </Link>
         </div>
